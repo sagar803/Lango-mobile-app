@@ -11,11 +11,10 @@ const ProfileWidget = () => {
   const fetchData = async () => {
     try {
       const userId = await AsyncStorage.getItem('lango-user-id');
+      console.log(userId)
       const res = await fetch(`https://lango-server.onrender.com/user/${userId}`, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
       });
 
       if (res.ok) {
@@ -38,7 +37,6 @@ const ProfileWidget = () => {
       </View>
       <TouchableOpacity style={styles.logout} onPress={logout}>
         <Text style={styles.logoutText}>Logout</Text>
-        {/* You can use an appropriate icon component for the right arrow */}
       </TouchableOpacity>
     </View>
   );

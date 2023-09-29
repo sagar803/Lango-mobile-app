@@ -1,13 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "./scenes/Home";
-import Auth from "./scenes/Auth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Home from "./scenes/Home";
+import Auth from "./scenes/Auth";
+import Setup from "./scenes/Setup";
 import ProfileWidget from "./components/ProfileWidget";
-import { useState } from "react";
 import useAuth from "./context/authContext";
 import { ActivityIndicator, View } from "react-native";
-import Setup from "./scenes/Setup";
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'; 
+import Ranking from "./scenes/Ranking";
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 function StackGroup() {
@@ -22,19 +24,38 @@ function StackGroup() {
 const Tab = createBottomTabNavigator();
 function HomeTab ()  {
     return (
-        <Tab.Navigator initialRouteName="Home">
+        <Tab.Navigator 
+            initialRouteName="Home"
+            screenOptions={{
+                tabBarStyle: { position: 'absolute' },                
+                tabBarActiveBackgroundColor: '#11111115'
+            }}
+        >
             <Tab.Screen 
                 name="home" 
                 component={Home} 
                 options={{
-                    headerTitle: "LANGO"
+                    headerTitle: "LANGO",
+                    tabBarLabel: 'Home',
+                    tabBarIcon: () => (<FontAwesome5 name="book-open" size={24} color="black" />)
                 }}
             />
             <Tab.Screen 
                 name="rankings" 
+                component={Ranking} 
+                options={{
+                    headerTitle: "Leaderboard",
+                    tabBarLabel: 'LeaderBoard',
+                    tabBarIcon: () => (<MaterialIcons name="leaderboard" size={24} color="black" />)
+                }}
+            />
+            <Tab.Screen 
+                name="profile" 
                 component={ProfileWidget} 
                 options={{
-                    headerTitle: "Leaderboard"
+                    headerTitle: "Profile",
+                    tabBarLabel: 'Profile',
+                    tabBarIcon: () => (<MaterialCommunityIcons name="face-man-profile" size={24} color="black" />)
                 }}
             />
         </Tab.Navigator>

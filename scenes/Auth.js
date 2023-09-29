@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet , ActivityIndicator} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet , ActivityIndicator, SafeAreaView} from 'react-native';
 import * as Yup from 'yup';
 import useAuth from '../context/authContext';
-
+import {COLORS, SIZES} from '../constants';
 
 export default Auth = () => {
 
@@ -14,7 +14,8 @@ export default Auth = () => {
   
     const togglePageType = () => {
         setCredentials({fullName : '', email : '' , password : ''});
-        setFormErrors({})
+        setFormErrors({});
+        setLoading(false);
         if (pageType === "login") setPageType("register");
         else setPageType("login");
     }
@@ -57,9 +58,9 @@ export default Auth = () => {
         }) 
         if (res.ok){
           const data = await res.json();
-          console.log(data.token);
           setUserData(data.user);
           setToken(data.token);
+          console.log(data);
           AsyncStorage.setItem("lango-token" , data.token);
           AsyncStorage.setItem("lango-user-id" , data.user._id);
         }
@@ -78,48 +79,47 @@ export default Auth = () => {
     }
 
     return (
-        <View style={styles.container}>
-          <View style={styles.authBody}>
-            <View style={styles.authFormContainer}>
-              <Text style={styles.welcome}>Welcome to Lango</Text>
-              <View style={styles.authForm}>
-                {pageType === 'register' && (
-                  <>
-                    {formErrors.fullName && <Text style={styles.error}>{formErrors.fullName}</Text>}
-                    <TextInput
-                      style={styles.input}
-                      value={credentials.fullName}
-                      onChangeText={(text) => setCredentials({ ...credentials, fullName: text })}
-                      placeholder="Enter your name.."
-                    />
-                  </>
-                )}
-                {formErrors.email && <Text style={styles.error}>{formErrors.email}</Text>}
-                <TextInput
-                  style={styles.input}
-                  value={credentials.email}
-                  onChangeText={(text) => setCredentials({ ...credentials, email: text })}
-                  placeholder="Email"
-                />
-                {formErrors.password && <Text style={styles.error}>{formErrors.password}</Text>}
-                <TextInput
-                  style={styles.input}
-                  value={credentials.password}
-                  onChangeText={(text) => setCredentials({ ...credentials, password: text })}
-                  secureTextEntry
-                  placeholder="Password"
-                />
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                  {loading ? <ActivityIndicator /> : <Text>{pageType === 'login' ? 'Login' : 'Register'}</Text>}
-                </TouchableOpacity>
-                <Text style={styles.togglePage} onPress={togglePageType}>
-                  {pageType === 'login' ? 'Register here' : 'Login here'}
-                </Text>
-                <Text>{userData && userData.name}</Text>
-              </View>
+        <SafeAreaView style={styles.authBody}>
+          <View style={styles.authFormContainer}>
+            <Text style={styles.welcome}>Lango</Text>
+            <Text style={{color: COLORS.gray1, paddingBottom: SIZES.xxLarge, fontWeight: '100', letterSpacing: 3}}>A language learning platform</Text>
+            <View style={styles.authForm}>
+              {pageType === 'register' && (
+                <>
+                  {formErrors.fullName && <Text style={styles.error}>{formErrors.fullName}</Text>}
+                  <TextInput
+                    style={styles.input}
+                    value={credentials.fullName}
+                    onChangeText={(text) => setCredentials({ ...credentials, fullName: text })}
+                    placeholder="Enter your name.."
+                  />
+                </>
+              )}
+              {formErrors.email && <Text style={styles.error}>{formErrors.email}</Text>}
+              <TextInput
+                style={styles.input}
+                value={credentials.email}
+                onChangeText={(text) => setCredentials({ ...credentials, email: text })}
+                placeholder="Email"
+              />
+              {formErrors.password && <Text style={styles.error}>{formErrors.password}</Text>}
+              <TextInput
+                style={styles.input}
+                value={credentials.password}
+                onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+                secureTextEntry
+                placeholder="Password"
+              />
+              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                {loading ? <ActivityIndicator size="large" color={COLORS.gray2}/> : <Text>{pageType === 'login' ? 'Login' : 'Register'}</Text>}
+              </TouchableOpacity>
+              <Text style={styles.togglePage} onPress={togglePageType}>
+                {pageType === 'login' ? 'Register here' : 'Login here'}
+              </Text>
+              <Text>{userData && userData.name}</Text>
             </View>
           </View>
-        </View>
+        </SafeAreaView>
       );
     };
 
@@ -129,68 +129,54 @@ export default Auth = () => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        height: "100%",
-    },
     authBody: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'rgb(33, 109, 250)',
+      backgroundColor: COLORS.gray4,
     },
     authFormContainer: {
-      width: '80%',
-      maxWidth: 450,
-      borderRadius: 15,
-      backgroundColor: 'white',
-      alignItems: 'center',
-      flexDirection: 'column',
-      textAlign: 'center',
+      width: '90%',
       padding: 20,
-      shadowColor: 'rgba(0, 0, 0, 0.1)',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 1,
     },
     welcome: {
-      color: 'rgb(33, 109, 250)',
-      fontSize: 24,
-      marginBottom: 20,
-    },
-    authFormContainerH1: {
-      fontSize: 24,
+      color: COLORS.yellow,
+      fontSize: 80,
+      fontWeight: '100',
+      marginBottom: 10,
+      letterSpacing: 10,
     },
     authForm: {
-      width: '85%',
+      width: '100%',
     },
     input: {
       width: '100%',
-      backgroundColor: 'rgb(243, 243, 243)',
-      color: 'rgb(93, 93, 93)',
+      backgroundColor: COLORS.gray2,
+      color: COLORS.gray1,
       fontSize: 18,
       borderRadius: 8,
       height: 50,
       marginVertical: 7,
-      padding: 15
-    },
-    inputPlaceholder: {
-      color: 'rgb(143, 143, 143)',
+      padding: 15,
+      
     },
     button: {
-      height: 50,
+      alignItems : 'center',
+      justifyContent: 'center', 
       marginVertical: 20,
+      height: 50,
       borderRadius: 5,
       padding: 5,
       fontSize: 18,
-      backgroundColor: 'cornflowerblue',
-      color: '#fff',
+      backgroundColor: COLORS.yellow,
     },
 
     togglePage: {
-      color: 'cornflowerblue',
+      color: COLORS.yellow,
       fontWeight: '500',
       fontSize: 14,
       marginTop: 0,
-      height: 10,
+      height: 20,
       width: '100%',
       textAlign: 'right',
     },

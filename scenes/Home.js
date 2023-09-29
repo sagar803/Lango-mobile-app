@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
-//import AsyncStorage from '@react-native-async-storage/async-storage'; // AsyncStorage for storing data locally
+import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import QuestionContainer from '../components/QuestionContainer';
 import useAuth from '../context/authContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLORS } from '../constants';
+import Swiper from 'react-native-swiper';
 
 const Home = ({ setIsAuth }) => {
   const [questions, setQuestions] = useState([]);
@@ -40,7 +40,7 @@ const Home = ({ setIsAuth }) => {
   }, [level]);
 
   return (
-    <View style={styles.home}>
+    <SafeAreaView style={styles.home}>
       
       <View style={styles.levelContainer}>
         <TouchableOpacity
@@ -50,7 +50,7 @@ const Home = ({ setIsAuth }) => {
           ]}
           onPress={() => setLevel('easy')}
         >
-          <Text>Easy</Text>
+          <Text style={[styles.text,level === 'easy' && {color: COLORS.gray3}]}>Easy</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -60,7 +60,7 @@ const Home = ({ setIsAuth }) => {
           ]}
           onPress={() => setLevel('medium')}
         >
-          <Text>Medium</Text>
+          <Text style={[styles.text,level === 'medium' && {color: COLORS.gray3}]}>Medium</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -70,22 +70,29 @@ const Home = ({ setIsAuth }) => {
           ]}
           onPress={() => setLevel('hard')}
         >
-          <Text>Hard</Text>
+          <Text style={[styles.text,level === 'hard' && {color: COLORS.gray3}]}>Hard</Text>
         </TouchableOpacity>
       </View>
       
-      <ScrollView style={styles.homeMain}>
+      <View style={styles.homeMain}>
         {loading ? (
           <ActivityIndicator size="large" color="blue" style={{ flex: 1, justifyContent: 'center' }} />
         ) : error ? (
-          <Text style={{ textAlign: 'center' }}>Something Went wrong</Text>
+          <Text style={styles.text}>Something Went wrong</Text>
         ) : questions.length !== 0 ? (
-          questions.map((q) => <QuestionContainer key={q._id} q={q} />)
+          <Swiper
+            index={0}
+            loop={false}
+            activeDotColor={COLORS.yellow}
+//            showsButtons={true}
+          >
+            {questions.map((q) => <QuestionContainer key={q._id} q={q} />)}
+          </Swiper>
         ) : (
-          <Text style={{ textAlign: 'center' }}>Nothing to show up here.</Text>
+          <Text style={styles.text}>Nothing to show up here.</Text>
         )}
-      </ScrollView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -93,19 +100,27 @@ const Home = ({ setIsAuth }) => {
 export default Home;
 
 const styles = {
+  text: {
+    color: COLORS.gray1,
+    textAlign: 'center'
+  },
   home: {
-    backgroundColor: 'rgb(33, 109, 250)',
-    color: 'white',
-    minHeight: '100%',
-    width: '100%',
+    flex: 1,
+    backgroundColor: COLORS.gray3,
+    color: COLORS.lightWhite,
+    alignItems: "center"
   },
   levelContainer: {
+    borderRadius: 20,
+    margin: 20,
+    width: '80%',
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#ffffff21',
+    backgroundColor: COLORS.gray4,
     padding: 5,
   },
   level: {
+    color: COLORS.white,
     fontWeight: '800',
     padding: 10,
     margin: 5,
@@ -113,14 +128,10 @@ const styles = {
     transition: '0.2s',
   },
   selected: {
-    backgroundColor: 'white',
-    color: 'rgb(82, 82, 82)',
+    backgroundColor: COLORS.yellow,
+    color: 'white',
   },
   homeMain: {
-    flex: 1
-  },
-  questionsContainer: {
-    padding: '25px 0',
-    width: 'min(100%, 800px)',
-  },
+    height: '80%'
+  }
 };

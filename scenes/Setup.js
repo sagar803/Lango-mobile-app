@@ -65,32 +65,31 @@ const Setup = () => {
 
 const styles = StyleSheet.create({
     setupBody: {
-      color: 'white',
       flex: 1,
       backgroundColor: 'rgb(33, 109, 250)',
       alignItems: 'center',
       justifyContent: 'center',
     },
     setupContainer: {
-      backgroundColor: '#ffffff20',
-      width: '80%',
+      borderRadius: 5,
+      backgroundColor: 'white',
+      width: '90%',
       alignItems: 'center',
     },
     setupHeading: {
-      width: 200,
-      color: '#ffffff',
+      fontSize: 25,
+      fontWeight: '500',
       margin: 0,
-      padding: 40,
+      paddingTop: 40,
+      paddingBottom: 20,
     },
     languageContainerHeading: {
       fontSize: 18,
       fontWeight: '500',
-      color: 'white',
     },
     languageOption: {
       fontSize: 16,
       marginVertical: 5,
-      color: '#ffffff',
       fontWeight: '500',
       borderRadius: 5,
       padding: 15,
