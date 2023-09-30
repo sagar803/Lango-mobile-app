@@ -4,9 +4,11 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet , ActivityIndicator
 import * as Yup from 'yup';
 import useAuth from '../context/authContext';
 import {COLORS, SIZES} from '../constants';
+import { Feather } from '@expo/vector-icons';
 
 export default Auth = () => {
 
+  const [showPassword, setShowPassword] = useState(false);
   const {userData, setUserData, setToken, loading, setLoading} = useAuth();
   const [pageType, setPageType] = useState("login");
   const [credentials , setCredentials ] = useState({fullName : '', email : '' , password : ''});
@@ -92,6 +94,7 @@ export default Auth = () => {
                     value={credentials.fullName}
                     onChangeText={(text) => setCredentials({ ...credentials, fullName: text })}
                     placeholder="Enter your name.."
+                    placeholderTextColor={COLORS.gray2}
                   />
                 </>
               )}
@@ -101,15 +104,24 @@ export default Auth = () => {
                 value={credentials.email}
                 onChangeText={(text) => setCredentials({ ...credentials, email: text })}
                 placeholder="Email"
+                placeholderTextColor={COLORS.gray2}
               />
               {formErrors.password && <Text style={styles.error}>{formErrors.password}</Text>}
-              <TextInput
-                style={styles.input}
-                value={credentials.password}
-                onChangeText={(text) => setCredentials({ ...credentials, password: text })}
-                secureTextEntry
-                placeholder="Password"
-              />
+              <View style={styles.passwordInputContainer}>
+                <TextInput
+                  style={styles.input}
+                  value={credentials.password}
+                  onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+                  placeholder="Password"
+                  secureTextEntry={!showPassword}
+                  placeholderTextColor={COLORS.gray2}
+                />
+                <Feather 
+                  name={showPassword ? 'eye' : 'eye-off'} 
+                  size={24} 
+                  color={COLORS.gray2} 
+                  onPress={() => setShowPassword(!showPassword)} />
+              </View>
               <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 {loading ? <ActivityIndicator size="large" color={COLORS.gray2}/> : <Text>{pageType === 'login' ? 'Login' : 'Register'}</Text>}
               </TouchableOpacity>
@@ -145,20 +157,24 @@ const styles = StyleSheet.create({
       fontWeight: '100',
       marginBottom: 10,
       letterSpacing: 10,
+
     },
     authForm: {
       width: '100%',
     },
     input: {
-      width: '100%',
-      backgroundColor: COLORS.gray2,
+      minWidth:'90%',
       color: COLORS.gray1,
-      fontSize: 18,
-      borderRadius: 8,
+      borderColor: COLORS.gray2,
+      borderBottomWidth: 1,
+      fontSize: 16,
       height: 50,
-      marginVertical: 7,
-      padding: 15,
-      
+      marginVertical: 10,     
+    },
+    passwordInputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between'
     },
     button: {
       alignItems : 'center',

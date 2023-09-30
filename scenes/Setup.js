@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAuth from '../context/authContext';
+import {COLORS, SIZES} from '../constants';
 
 const Setup = () => {
   const navigation = useNavigation();
@@ -10,13 +11,17 @@ const Setup = () => {
 
   //An error was caused and then resolved using the blog
   //https://gorannikolovski.com/blog/cannot-update-a-component-while-rendering-a-different-component-react-native
+/*
   useEffect(() => {
     if (practice) navigation.navigate('homeTab');
   }, [practice]);
+*/
 
   const handlePress = async (languageId) => {
+    console.log(languageId)
     setPractice(languageId);
     await AsyncStorage.setItem('lango-practice', languageId);
+    if (practice) navigation.navigate('homeTab');
   }
 
   const languages = [
@@ -44,20 +49,20 @@ const Setup = () => {
 
   return (
     <View style={styles.setupBody}>
-      <View style={styles.setupContainer}>
-        <Text style={styles.setupHeading}>Getting Started....</Text>
-
-        <View style={styles.languagesContainer}>
-          <Text style={styles.languageContainerHeading}>Which Language do you want to learn..</Text>
-          {languages.map((lang) => (
-            <TouchableOpacity
-              key={lang.languageId}
-              onPress={() => handlePress(lang.languageId)}
-            >
-              <Text style={styles.languageOption}>{lang.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      <View style={styles.headingContainer}>
+        <Text style={styles.heading1}>Getting Started....</Text>
+        <Text style={styles.heading2}>Please choose a language you'd like to learn.</Text>
+      </View>
+      <View style={styles.languageContainer}>
+        {languages.map((lang) => (
+          <TouchableOpacity
+            style={styles.languageOption}
+            key={lang.languageId}
+            onPress={() => handlePress(lang.languageId)}
+          >
+            <Text style={{color: COLORS.gray1}}>{lang.name}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -66,46 +71,37 @@ const Setup = () => {
 const styles = StyleSheet.create({
     setupBody: {
       flex: 1,
-      backgroundColor: 'rgb(33, 109, 250)',
+      backgroundColor: COLORS.gray4,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    setupContainer: {
-      borderRadius: 5,
-      backgroundColor: 'white',
-      width: '90%',
+    headingContainer: {
       alignItems: 'center',
     },
-    setupHeading: {
-      fontSize: 25,
-      fontWeight: '500',
-      margin: 0,
+    heading1: {
+      fontSize: 45,
+      fontWeight: '100',
+      color: COLORS.gray1,
       paddingTop: 40,
       paddingBottom: 20,
     },
-    languageContainerHeading: {
-      fontSize: 18,
-      fontWeight: '500',
+    heading2: {
+      fontWeight: '100',
+      color: COLORS.gray1,
+      fontSize: 16,
+      paddingBottom: 20,
+    },
+    languageContainer: {
+      width: '80%'
     },
     languageOption: {
-      fontSize: 16,
-      marginVertical: 5,
-      fontWeight: '500',
-      borderRadius: 5,
-      padding: 15,
-    },
-    setupSubmitButton: {
+      justifyContent:"center",
       alignItems: 'center',
-    },
-    submitButton: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: 'white',
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      borderRadius: 10,
-      borderWidth: 2,
-      borderColor: 'white',
+      height: 50,
+      borderBottomWidth: 2,
+      borderRadius: 5,
+      borderColor: COLORS.gray2,
+      margin: 10
     },
   });
 

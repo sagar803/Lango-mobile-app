@@ -6,15 +6,25 @@ import Auth from "./scenes/Auth";
 import Setup from "./scenes/Setup";
 import ProfileWidget from "./components/ProfileWidget";
 import useAuth from "./context/authContext";
-import { ActivityIndicator, View } from "react-native";
+import { Text, ActivityIndicator, View } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'; 
 import Ranking from "./scenes/Ranking";
 import { FontAwesome5 } from '@expo/vector-icons';
+import { COLORS } from "./constants";
 
 const Stack = createNativeStackNavigator();
 function StackGroup() {
     return (
-        <Stack.Navigator initialRouteName="Setup">
+        <Stack.Navigator 
+            initialRouteName="Setup"
+            screenOptions={{
+                headerStyle: {
+                    margin: 20,
+                    backgroundColor: COLORS.gray2, 
+                    color: COLORS.yellow
+                }
+            }}
+        >   
             <Stack.Screen name='setup' component={Setup} options={{headerShown: false}}/>
             <Stack.Screen name='homeTab' component={HomeTab}  options={{headerShown: false}}/>
         </Stack.Navigator>
@@ -27,8 +37,15 @@ function HomeTab ()  {
         <Tab.Navigator 
             initialRouteName="Home"
             screenOptions={{
-                tabBarStyle: { position: 'absolute' },                
-                tabBarActiveBackgroundColor: '#11111115'
+                tabBarStyle: {
+                    backgroundColor: COLORS.gray2, 
+                    position: 'absolute',
+                    margin: 20,
+                    height: 60,
+                    borderRadius: 15,
+                },                
+                tabBarActiveBackgroundColor: '#11111115',
+                tabBarActiveTintColor: COLORS.yellow
             }}
         >
             <Tab.Screen 
@@ -37,7 +54,7 @@ function HomeTab ()  {
                 options={{
                     headerTitle: "LANGO",
                     tabBarLabel: 'Home',
-                    tabBarIcon: () => (<FontAwesome5 name="book-open" size={24} color="black" />)
+                    tabBarIcon: () => (<FontAwesome5 name="book-open" size={24} color={COLORS.gray3} />)
                 }}
             />
             <Tab.Screen 
@@ -46,7 +63,7 @@ function HomeTab ()  {
                 options={{
                     headerTitle: "Leaderboard",
                     tabBarLabel: 'LeaderBoard',
-                    tabBarIcon: () => (<MaterialIcons name="leaderboard" size={24} color="black" />)
+                    tabBarIcon: () => (<MaterialIcons name="leaderboard" size={24} color={COLORS.gray3} />)
                 }}
             />
             <Tab.Screen 
@@ -55,7 +72,7 @@ function HomeTab ()  {
                 options={{
                     headerTitle: "Profile",
                     tabBarLabel: 'Profile',
-                    tabBarIcon: () => (<MaterialCommunityIcons name="face-man-profile" size={24} color="black" />)
+                    tabBarIcon: () => (<MaterialCommunityIcons name="face-man-profile" size={24} color={COLORS.gray3} />)
                 }}
             />
         </Tab.Navigator>
@@ -67,8 +84,8 @@ export default function Navigation() {
 
     if(checkingLogged){
         return (
-          <View style={{flex: 1, alignContent: 'center', justifyContent: "center"}}>
-            <ActivityIndicator />
+          <View style={{flex: 1, alignContent: 'center', justifyContent: "center", backgroundColor: COLORS.gray3}}>
+            <ActivityIndicator color={COLORS.yellow} size={"medium"}/>
           </View>
         )
       }
