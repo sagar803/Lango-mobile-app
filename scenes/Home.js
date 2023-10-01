@@ -76,7 +76,7 @@ const Home = ({ setIsAuth }) => {
       
       <View style={styles.homeMain}>
         {loading ? (
-          <ActivityIndicator size="large" color="blue" style={{ flex: 1, justifyContent: 'center' }} />
+          <ActivityIndicator size="large" color={COLORS.yellow} style={{ flex: 1, justifyContent: 'center' }} />
         ) : error ? (
           <Text style={styles.text}>Something Went wrong</Text>
         ) : questions.length !== 0 ? (
@@ -132,6 +132,6 @@ const styles = {
     color: 'white',
   },
   homeMain: {
-    height: '80%'
+    paddingBottom: 220,
   }
 };

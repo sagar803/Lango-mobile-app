@@ -36,7 +36,7 @@ const Ranking = () => {
     <SafeAreaView style={styles.container}>
         {loading ? (
           <View style={styles.loaderContainer}>
-            <ActivityIndicator />
+            <ActivityIndicator size="large" color={COLORS.yellow} style={{ flex: 1, justifyContent: 'center' }} />
           </View>
         ) : rankings && rankings.length !== 0 ? (
           <View style={styles.tableContainer}>
@@ -45,7 +45,7 @@ const Ranking = () => {
                 <Text style={styles.tableHeading}>Name</Text>
                 <Text style={styles.tableHeading}>Solved</Text>
             </View>
-            <ScrollView> 
+            <ScrollView style={{height: '85%', paddingBottom: 150}}> 
                 {rankings.map((r, index) => (
                     <RankingTableRows key={index} data={r}/>
                 ))}
@@ -60,9 +60,9 @@ const Ranking = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: COLORS.gray3,
     padding: 10,
-    marginBottom: 70
   },
   loaderContainer: {
     flex: 1,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   tableHeading: {
-    color: COLORS.white,
+    color: COLORS.gray1,
     fontWeight: 'bold',
     flex: 1,
     textAlign: 'center',

@@ -23,14 +23,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: COLORS.yellow,
-        padding: 15,
-        margin: 5,
+        borderWidth: 1,
+        borderColor: COLORS.gray2,
+        padding: 20,
+        margin: 8,
         borderRadius: 8
     },
     colData: {
         fontWeight: "500",
-        color: COLORS.gray3,
+        color: COLORS.gray1,
         textAlign: "center"
     }
     

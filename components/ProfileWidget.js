@@ -2,6 +2,7 @@ import React , {useEffect,  useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import useAuth from '../context/authContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLORS } from '../constants';
 
 
 const ProfileWidget = () => {
@@ -33,7 +34,7 @@ const ProfileWidget = () => {
   return (
     <View style={styles.profileWidgetContainer}>
       <View style={styles.userProgress}>
-        <Text>Progress: {progress ? progress.percentage : 'Loading...'}%</Text>
+        <Text style={{color: COLORS.gray1}}>Progress: {progress ? progress.percentage : 'Loading...'}%</Text>
       </View>
       <TouchableOpacity style={styles.logout} onPress={logout}>
         <Text style={styles.logoutText}>Logout</Text>
@@ -53,11 +54,11 @@ const styles = StyleSheet.create({
     logout: {
       marginBottom: 10,
       padding: 10,
-      backgroundColor: '#3b81fba9',
+      backgroundColor: COLORS.gray4,
       borderRadius: 10,
       alignItems: 'center', // Add this to center text horizontally
     },
     logoutText: {
-      color: 'white',
+      color: COLORS.gray1,
     },
   });

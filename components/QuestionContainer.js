@@ -57,7 +57,7 @@ export default  QuestionContainer = ({ q }) => {
             ]}
             onPress={() => handleSubmit(index)}
           >
-            <Text>{o}</Text>
+            <Text style={{textAlign: 'center', fontWeight: '500', fontSize: 16, color: COLORS.gray1}}>{o}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -101,14 +101,16 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     borderRadius: 5,
-    backgroundColor: COLORS.gray2,
+    borderWidth: 1,
+    borderColor: COLORS.gray2,
   },
   green: {
-    backgroundColor: 'greenyellow',
+    borderWidth: 3,
+    borderColor: 'greenyellow',
   },
   red: {
     color: 'rgb(202, 202, 202)',
-  
-    backgroundColor: 'rgb(255, 0, 0)',
+    borderWidth: 3,
+    borderColor: 'rgb(255, 0, 0)',
   },
 });
